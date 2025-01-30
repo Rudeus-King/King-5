@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Culinary Moments</title>
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    
+    <style>
+        /* Основные стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(#e66465, #9198e5);
+            color: #f9f9f9;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            padding: 50px 20px;
+            font-size: 36px;
+            font-weight: bold;
+        }
+        .cards-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        .cards {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            width: 250px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .cards:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        .cards.selected {
+            border: 3px solid #ffffff;
+        }
+        .recipe-container {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        .email-form {
+            margin-top: 30px;
+        }
+        footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #dcdcdc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 data-aos="fade-up" data-aos-duration="3000">Savor Culinary Moments</h1>
+</div>
+
+<div class="cards-wrapper">
+    <div class="cards" onclick="showRecipe('recipe1', this)" data-aos="zoom-in">
+        <h2>Delicious Recipes</h2>
+        <p>Explore a variety of recipes to make every meal memorable.</p>
+    </div>
+    <div class="cards" onclick="showRecipe('recipe2', this)" data-aos="flip-left">
+        <h2>Family Meals</h2>
+        <p>Create meals that bring the whole family together at the table.</p>
+    </div>
+</div>
+
+<div id="recipe-container" class="recipe-container">
+    <h2 id="recipe-title"></h2>
+    <p id="recipe-description"></p>
+    <button onclick="changeRecipe()">Change Recipe</button>
+</div>
+
+<div class="email-form">
+    <h2>Subscribe for Weekly Recipes</h2>
+    <form>
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+    </form>
+</div>
+
+<footer>
+    <p>&copy; 2025 Culinary Moments. All Rights Reserved.</p>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+
+    const recipes = {
+        recipe1: [
+            { title: "Pasta Carbonara", description: "A classic Italian dish with creamy sauce and bacon." },
+            { title: "Chicken Alfredo", description: "Delicious pasta with creamy Alfredo sauce and grilled chicken." }
+        ],
+        recipe2: [
+            { title: "Beef Stew", description: "A hearty and comforting meal perfect for the whole family." },
+            { title: "Roast Chicken", description: "Juicy and flavorful roast chicken with herbs and spices." }
+        ]
+    };
+    
+    let currentRecipeIndex = 0;
+    let currentRecipeKey = '';
+    
+    function showRecipe(recipeKey, card) {
+        currentRecipeKey = recipeKey;
+        currentRecipeIndex = 0;
+        updateRecipe();
+
+        document.getElementById('recipe-container').style.display = 'block';
+        document.querySelectorAll('.cards').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+    }
+    
+    function updateRecipe() {
+        if (recipes[currentRecipeKey] && recipes[currentRecipeKey].length > 0) {
+            const recipe = recipes[currentRecipeKey][currentRecipeIndex];
+            document.getElementById('recipe-title').textContent = recipe.title;
+            document.getElementById('recipe-description').textContent = recipe.description;
+        }
+    }
+    
+    function changeRecipe() {
+        if (recipes[currentRecipeKey] && recipes[currentRecipeKey].length > 1) {
+            currentRecipeIndex = (currentRecipeIndex + 1) % recipes[currentRecipeKey].length;
+            updateRecipe();
+        }
+    }
+</script>
+
+</body>
+</html>
